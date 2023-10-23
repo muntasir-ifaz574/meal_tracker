@@ -132,7 +132,7 @@ class _SingUpScreenState extends State<SingUpScreen> {
                                 style: TextStyle(
                                   fontFamily: 'latoRagular',
                                   fontWeight: FontWeight.w600,
-                                  color: Color(0xFF102048),
+                                  color: kThemeColor,
                                 ),
                               ),
                               border: OutlineInputBorder(
