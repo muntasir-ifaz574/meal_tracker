@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mealtracker/src/views/ui/home_screen.dart';
 import 'package:mealtracker/src/views/utils/colors.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -139,15 +140,13 @@ class _SplashScreenState extends State<SplashScreen> {
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: const Color(0xFFD9D9D9).withOpacity(0.05)),
-                        child: const DelayedAnimation(
+                        child:  DelayedAnimation(
                           delay: 300,
                           child: Center(
-                            child: CustomImage(
-                              path: "assets/images/meal_tracker_logo.png",
-                              width: double.infinity,
-                              height: double.infinity,
-                              fit: BoxFit.contain,
-                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Lottie.asset("assets/lotties/home_screen_lottie.json"),
+                            )
                           ),
                         ),
                       ),

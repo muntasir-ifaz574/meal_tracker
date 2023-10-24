@@ -3,6 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:mealtracker/src/business_logics/models/user_data_model.dart';
 import 'package:mealtracker/src/views/ui/add_meal_screen.dart';
 import 'package:mealtracker/src/views/ui/auth_screen/sign_in_screen.dart';
+import 'package:mealtracker/src/views/ui/meal_list_screen.dart';
 import 'package:mealtracker/src/views/utils/colors.dart';
 import 'package:mealtracker/src/views/widgets/home_screen_custom_continer.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -90,7 +91,15 @@ class HomeScreen extends StatelessWidget {
                     homeScreenCustomContainer(
                       "assets/lotties/meal_list_lottie.json",
                       "Meal List",
-                      () {},
+                      () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                            const MealListScreen(),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),

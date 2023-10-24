@@ -16,6 +16,8 @@ class _Repository {
 
   ///--------------------------Common Repository-------------------///
   Future<ResponseObject> addMealProvider({required String mealType, required String whatYouEat, required String totalCalorie}) => _commonAPIServices.addMealAPI(mealType: mealType,whatYouEat: whatYouEat,totalCalorie: totalCalorie);
+  Future<ResponseObject> mealListProvider() => _commonAPIServices.mealListAPI();
+  Future<ResponseObject> deleteMealProvider({required int id}) => _commonAPIServices.deleteMealAPI(id: id);
 
 
 }

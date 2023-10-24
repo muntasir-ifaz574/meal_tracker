@@ -13,4 +13,5 @@ const TextStyle ksTitelTextStyle =  TextStyle(fontFamily: 'Nunito', fontWeight: 
 const TextStyle kHLargeTitleTextStyle = TextStyle(color: kBlackColor, fontSize: 24.0, fontWeight: FontWeight.w700,fontFamily: 'Nunito');
 const TextStyle kHTitleTextStyle = TextStyle(color: kBlackColor, fontSize: 20.0, fontWeight: FontWeight.w600,fontFamily: 'Nunito');
 const TextStyle kHSubTitleTextStyle = TextStyle(color: kBlackColor, fontSize: 20.0, fontWeight: FontWeight.w600,fontFamily: 'Nunito');
+const TextStyle kHSmallTitleTextStyle = TextStyle(color: kBlackColor, fontSize: 16.0, fontWeight: FontWeight.w600,fontFamily: 'Nunito');
 

@@ -142,28 +142,33 @@ class _SignInScreenState extends State<SignInScreen> {
                               child: WidgetFactory.buildButton(
                                 context: context,
                                 onPressed: () async {
-                                  String email =
-                                      userEmailController.text.toString();
-                                  String password =
-                                      userPasswordController.text.toString();
-                                  AuthProvider authProvider =
-                                      Provider.of<AuthProvider>(context,
-                                          listen: false);
-                                  bool response =
-                                      await authProvider.signInProvider(
-                                          email: email, password: password);
-                                  if (response) {
-                                    if (!mounted) return;
-                                    Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const HomeScreen()),
-                                        (Route<dynamic> route) => false);
+                                  String email = userEmailController.text.toString();
+                                  String password = userPasswordController.text.toString();
+                                  if(userEmailController.text.isNotEmpty && userPasswordController.text.isNotEmpty){
+                                    AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
+                                    bool response = await authProvider.signInProvider(email: email, password: password);
+                                    if (response) {
+                                      userEmailController.clear();
+                                      userPasswordController.clear();
+                                      if (!mounted) return;
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                              const HomeScreen()),
+                                              (Route<dynamic> route) => false);
+                                    } else {
+                                      if (!mounted) return;
+                                      customWidget.showCustomSnackbar(context,
+                                          authProvider.errorResponse?.message);
+                                    }
                                   } else {
-                                    if (!mounted) return;
-                                    customWidget.showCustomSnackbar(context,
-                                        authProvider.errorResponse?.message);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            "Please fill all field."),
+                                      ),
+                                    );
                                   }
                                 },
                                 text: "Sign In",

@@ -114,7 +114,7 @@ class _SingUpScreenState extends State<SingUpScreen> {
                           label: "Password",
                           hint: "12*****8",
                           focusNode: newUserPasswordFocusNode,
-                          textInputAction: TextInputAction.next,
+                          textInputAction: TextInputAction.done,
                         ),
                       ),
                       //Already have account Sing Up
@@ -155,11 +155,14 @@ class _SingUpScreenState extends State<SingUpScreen> {
                       Consumer<AuthProvider>(
                         builder: (context, authProvider, child) {
                           return authProvider.inProgress
-                              ? const Center(
-                                  child: CircularProgressIndicator(
-                                    color: kThemeColor,
+                              ? const Padding(
+                                padding: EdgeInsets.only(bottom: 10),
+                                child: Center(
+                                    child: CircularProgressIndicator(
+                                      color: kThemeColor,
+                                    ),
                                   ),
-                                )
+                              )
                               : Container(
                                   margin: const EdgeInsets.symmetric(
                                       horizontal: 20),
@@ -172,32 +175,44 @@ class _SingUpScreenState extends State<SingUpScreen> {
                                       String name = newUserNameController.text.toString();
                                       String email = newUserEmailController.text.toString();
                                       String password = newUserPasswordController.text.toString();
-                                      AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
-                                      bool response = await authProvider.signUpProvider(
-                                              username: name,
-                                              email: email,
-                                              password: password
+
+                                      if(newUserNameController.text.isNotEmpty && newUserEmailController.text.isNotEmpty && newUserPasswordController.text.isNotEmpty){
+                                        AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
+                                        bool response = await authProvider.signUpProvider(
+                                            username: name,
+                                            email: email,
+                                            password: password
                                         );
-                                      if (response) {
-                                        if (!mounted) return;
-                                        Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const SignInScreen()),
-                                            (Route<dynamic> route) => false);
+                                        if (response) {
+                                          if (!mounted) return;
+                                          Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                  const SignInScreen()),
+                                                  (Route<dynamic> route) => false);
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(
+                                              content: Text("Your account has been created successfully! Please SignIn to continue"),
+                                            ),
+                                          );
+                                        } else {
+                                          if (!mounted) return;
+                                          customWidget.showCustomSnackbar(
+                                              context,
+                                              authProvider
+                                                  .errorResponse?.message);
+                                        }
+                                      }else {
                                         ScaffoldMessenger.of(context).showSnackBar(
                                           const SnackBar(
-                                            content: Text("Your account has been created successfully! Please SignIn to continue"),
+                                            content: Text(
+                                                "Please fill all field."),
                                           ),
                                         );
-                                      } else {
-                                        if (!mounted) return;
-                                        customWidget.showCustomSnackbar(
-                                            context,
-                                            authProvider
-                                                .errorResponse?.message);
                                       }
+
+
                                     },
                                     text: "SIGN UP",
                                     backgroundColor: kThemeColor,
