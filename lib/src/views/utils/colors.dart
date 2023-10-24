@@ -17,7 +17,7 @@ Map<int, Color> colorMap = {
 const Color kThemeColor = Color(0xFF1294F2);
 const Color kWhiteColor = Color(0xFFFFFFFF);
 const Color kBlackColor = Color(0xFF000000);
-// const Color kBlueColor = Color(0xFF1294F2);
+const Color kBackGroundColor = Color(0xFFEAF4F2);
 const Color kLightGreyColor = Color(0xFFE7E5E4);
 
 

@@ -61,7 +61,7 @@ class AndroidTextField implements PlatformTextField {
       obscureText: obscureText ?? false,
       focusNode: focusNode,
       decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 12,vertical: 12),
           hintText: hint,
           hintStyle: const TextStyle(color: Color(0xFFC4C4C4),fontFamily: 'latoRagular',),
           label: Text(label, style: (focusNode != null && focusNode.hasFocus) ? const TextStyle(color: kThemeColor,fontWeight: FontWeight.w600,fontFamily: 'latoRagular') : const TextStyle(color: kThemeColor,fontWeight: FontWeight.w600,fontFamily: 'latoRagular',)),

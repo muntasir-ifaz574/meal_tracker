@@ -1,8 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:mealtracker/src/views/ui/home_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import '../../../business_logics/providers/auth_provider.dart';
 import '../../utils/colors.dart';
 import '../../utils/custom_text_style.dart';
+import '../../widgets/custom_warning_message_widget.dart';
 import '../../widgets/widget_factory.dart';
 import 'controller.dart';
 import 'sign_up_screen.dart';
@@ -28,7 +32,7 @@ class _SignInScreenState extends State<SignInScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                height: mHeight/2.1,
+                height: mHeight / 2.1,
                 width: 70.w,
                 decoration: const BoxDecoration(
                   color: Color(0xFFEAF4F2),
@@ -61,129 +65,113 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.only(left: 20,right: 20,top: 20,bottom: 10),
+                      padding: const EdgeInsets.only(
+                          left: 20, right: 20, top: 20, bottom: 10),
                       child: WidgetFactory.buildTextField(
-                          controller: usernameETController,
+                          controller: userEmailController,
                           textInputType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
                           context: context,
                           label: "Username",
                           hint: "user@example.com",
-                          focusNode: usernameETFocusNode),
+                          focusNode: userEmailFocusNode),
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 10),
                       child: WidgetFactory.buildTextField(
-                        controller: passwordETController,
+                        controller: userPasswordController,
                         context: context,
                         obscureText: isSecurePassword,
                         suffixIcon: togglePassword(),
                         label: "Password",
                         hint: "Password",
-                        focusNode: passwordETFocusNode,
+                        focusNode: userPasswordFocusNode,
                         maxline: 1,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              text: "Don’t have account? ",
-                              style: TextStyle(
-                                fontSize: 16.5.sp,
-                                fontWeight: FontWeight.w400,
-                                color: kBlackColor,
-                                fontFamily: 'latoRagular',
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: "Sign Up",
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: kThemeColor,
-                                    fontFamily: 'latoRagular',
-                                  ),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                          const SingUpScreen(),
-                                        ),
-                                      );
-                                    },
-                                ),
-                              ],
-                            ),
+                      child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          text: "Don’t have account? ",
+                          style: TextStyle(
+                            fontSize: 16.5.sp,
+                            fontWeight: FontWeight.w400,
+                            color: kBlackColor,
+                            fontFamily: 'latoRagular',
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) =>
-                              //     const ForgetPasswordScreen(),
-                              //   ),
-                              // );
-                            },
-                            child: Text(
-                              "Forgot Password ?",
+                          children: [
+                            TextSpan(
+                              text: "Sign Up",
                               style: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w400,
-                                color: kBlackColor,
+                                color: kThemeColor,
                                 fontFamily: 'latoRagular',
                               ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SingUpScreen(),
+                                    ),
+                                  );
+                                },
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(height: 5.h),
-                    // Consumer<AuthProvider>(
-                    //     builder: (ctx, authProvider, child) {
-                    //       return authProvider.inProgress
-                    //           ? const Center(
-                    //           child: CircularProgressIndicator(
-                    //               color: kThemeColor))
-                    //           :
-                          SizedBox(
-                            height: 6.h,
-                            width: 90.w,
-                            child: WidgetFactory.buildButton(
-                              context: context,
-                              onPressed: () async {
-                                // String username = usernameETController.text.toString();
-                                // String password = passwordETController.text.toString();
-                                // AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
-                                // bool response = await authProvider.login(username: username, password: password);
-                                // if (response) {
-                                //   int? time = authProvider.loginResponse?.data?.time;
-                                //   if (!mounted) return;
-                                //   Navigator.pushAndRemoveUntil(
-                                //       context,
-                                //       MaterialPageRoute(builder: (context) => LoginOTPScreen(email: username,time: time as int,),
-                                //       ),
-                                //           (Route<dynamic> route) => false);
-                                // } else {
-                                //   if (!mounted) return;
-                                //   customWidget.showCustomSnackbar(context, authProvider.errorResponse?.message);
-                                // }
-                              },
-                              text: "Sign In",
-                              backgroundColor: kThemeColor,
-                              borderColor: Colors.transparent,
-                            ),
-                          ),
-                        // }),
+                    Consumer<AuthProvider>(
+                        builder: (context, authProvider, child) {
+                      return authProvider.inProgress
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                                color: kThemeColor,
+                              ),
+                            )
+                          : SizedBox(
+                              height: 6.h,
+                              width: 90.w,
+                              child: WidgetFactory.buildButton(
+                                context: context,
+                                onPressed: () async {
+                                  String email =
+                                      userEmailController.text.toString();
+                                  String password =
+                                      userPasswordController.text.toString();
+                                  AuthProvider authProvider =
+                                      Provider.of<AuthProvider>(context,
+                                          listen: false);
+                                  bool response =
+                                      await authProvider.signInProvider(
+                                          email: email, password: password);
+                                  if (response) {
+                                    if (!mounted) return;
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const HomeScreen()),
+                                        (Route<dynamic> route) => false);
+                                  } else {
+                                    if (!mounted) return;
+                                    customWidget.showCustomSnackbar(context,
+                                        authProvider.errorResponse?.message);
+                                  }
+                                },
+                                text: "Sign In",
+                                backgroundColor: kThemeColor,
+                                borderColor: Colors.transparent,
+                              ),
+                            );
+                    }),
                     SizedBox(height: 5.h),
                   ],
                 ),

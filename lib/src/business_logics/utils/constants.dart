@@ -1,1 +1,1 @@
-const String BASE_URL = "";
+const String BASE_URL = "https://meals.engineerstech.io/public/api";

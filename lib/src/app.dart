@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mealtracker/src/views/ui/splash_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'views/ui/welcome.dart';
 import 'views/utils/colors.dart';
 
 class MyApp extends StatelessWidget {

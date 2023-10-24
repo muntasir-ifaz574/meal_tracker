@@ -1,8 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import '../../../business_logics/providers/auth_provider.dart';
 import '../../utils/colors.dart';
 import '../../utils/custom_text_style.dart';
+import '../../widgets/custom_warning_message_widget.dart';
 import '../../widgets/widget_factory.dart';
 import 'controller.dart';
 import 'sign_in_screen.dart';
@@ -37,12 +40,7 @@ class _SingUpScreenState extends State<SingUpScreen> {
                       color: kBlackColor,
                     ),
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SignInScreen(),
-                          ),
-                          (Route<dynamic> route) => false);
+                      Navigator.pop(context);
                     },
                   ),
                 ),
@@ -57,12 +55,11 @@ class _SingUpScreenState extends State<SingUpScreen> {
                 SizedBox(height: 5.h),
                 Container(
                   // height: 90.h,
-                  margin: EdgeInsets.symmetric(horizontal: 15),
+                  margin: const EdgeInsets.symmetric(horizontal: 15),
                   width: 100.w,
                   decoration: BoxDecoration(
-                    color: kWhiteColor,
-                    borderRadius: BorderRadius.circular(30)
-                  ),
+                      color: kWhiteColor,
+                      borderRadius: BorderRadius.circular(30)),
                   child: Column(
                     children: [
                       const Padding(
@@ -84,11 +81,12 @@ class _SingUpScreenState extends State<SingUpScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),
                         child: WidgetFactory.buildTextField(
+                          controller: newUserNameController,
                           textInputAction: TextInputAction.next,
                           context: context,
                           label: "Name",
                           hint: "Enter Your Name",
-                          focusNode: namesETFocusNode,
+                          focusNode: newUserNameFocusNode,
                         ),
                       ),
                       //Email
@@ -96,84 +94,30 @@ class _SingUpScreenState extends State<SingUpScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),
                         child: WidgetFactory.buildTextField(
+                          controller: newUserEmailController,
                           textInputType: TextInputType.emailAddress,
                           context: context,
                           label: "Email",
                           hint: "email@example.com",
-                          focusNode: emailETFocusNode,
+                          focusNode: newUserEmailFocusNode,
                           textInputAction: TextInputAction.next,
                         ),
                       ),
-                      //Gender
-                      Padding(
+                      //Password
+                      Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),
-                        child: SizedBox(
-                          height: 6.h,
-                          width: double.infinity,
-                          child: DropdownButtonFormField<String>(
-                            isExpanded: true,
-                            hint: const Text(
-                              "Select Gender",
-                              style: TextStyle(
-                                fontFamily: 'latoRagular',
-                                fontSize: 13,
-                                color: Color(0xFFC4C4C4),
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            // value: dropdownValue,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.transparent,
-                              contentPadding: const EdgeInsets.all(10.0),
-                              label: const Text(
-                                "Gender",
-                                style: TextStyle(
-                                  fontFamily: 'latoRagular',
-                                  fontWeight: FontWeight.w600,
-                                  color: kThemeColor,
-                                ),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                  color: Color(0xFF808080),
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Color(0xFF808080)),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                            onChanged: (String? newValue) {
-                              // setState(() {
-                              //   dropdownValue = newValue!;
-                              // });
-                            },
-                            items: <String>[
-                              "Male",
-                              "Female",
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: const TextStyle(
-                                    fontFamily: 'latoRagular',
-                                    color: kThemeColor,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                          ),
+                        child: WidgetFactory.buildTextField(
+                          controller: newUserPasswordController,
+                          textInputType: TextInputType.text,
+                          context: context,
+                          label: "Password",
+                          hint: "12*****8",
+                          focusNode: newUserPasswordFocusNode,
+                          textInputAction: TextInputAction.next,
                         ),
                       ),
-                      //Already have accout Sing Up
+                      //Already have account Sing Up
                       Padding(
                         padding: const EdgeInsets.all(20),
                         child: Align(
@@ -208,25 +152,59 @@ class _SingUpScreenState extends State<SingUpScreen> {
                         ),
                       ),
                       //Sing Up Button
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        width: double.infinity,
-                        height: 8.h,
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: WidgetFactory.buildButton(
-                          context: context,
-                          onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const SignupOTPScreen(),
-                            //   ),
-                            // );
-                          },
-                          text: "SIGN UP",
-                          backgroundColor: kThemeColor,
-                          borderColor: Colors.transparent,
-                        ),
+                      Consumer<AuthProvider>(
+                        builder: (context, authProvider, child) {
+                          return authProvider.inProgress
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                    color: kThemeColor,
+                                  ),
+                                )
+                              : Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  width: double.infinity,
+                                  height: 8.h,
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: WidgetFactory.buildButton(
+                                    context: context,
+                                    onPressed: () async {
+                                      String name = newUserNameController.text.toString();
+                                      String email = newUserEmailController.text.toString();
+                                      String password = newUserPasswordController.text.toString();
+                                      AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
+                                      bool response = await authProvider.signUpProvider(
+                                              username: name,
+                                              email: email,
+                                              password: password
+                                        );
+                                      if (response) {
+                                        if (!mounted) return;
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SignInScreen()),
+                                            (Route<dynamic> route) => false);
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                            content: Text("Your account has been created successfully! Please SignIn to continue"),
+                                          ),
+                                        );
+                                      } else {
+                                        if (!mounted) return;
+                                        customWidget.showCustomSnackbar(
+                                            context,
+                                            authProvider
+                                                .errorResponse?.message);
+                                      }
+                                    },
+                                    text: "SIGN UP",
+                                    backgroundColor: kThemeColor,
+                                    borderColor: Colors.transparent,
+                                  ),
+                                );
+                        },
                       ),
                     ],
                   ),

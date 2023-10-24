@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
-FocusNode usernameETFocusNode = FocusNode();
-FocusNode passwordETFocusNode = FocusNode();
-var usernameETController = TextEditingController();
-var passwordETController = TextEditingController();
-FocusNode phoneETFocusNode = FocusNode();
-FocusNode companyNameETFocusNode = FocusNode();
-FocusNode sizeETFocusNode = FocusNode();
-FocusNode addressETFocusNode = FocusNode();
-FocusNode designationETFocusNode = FocusNode();
-FocusNode namesETFocusNode = FocusNode();
-FocusNode emailETFocusNode = FocusNode();
+///------------------Sign In Screen--------------------------///
+FocusNode userEmailFocusNode = FocusNode();
+FocusNode userPasswordFocusNode = FocusNode();
+var userEmailController = TextEditingController();
+var userPasswordController = TextEditingController();
 bool isSecurePassword = true;
+
+///------------------Sign Up Screen--------------------------///
+FocusNode newUserNameFocusNode = FocusNode();
+FocusNode newUserEmailFocusNode = FocusNode();
+FocusNode newUserPasswordFocusNode = FocusNode();
+var newUserNameController = TextEditingController();
+var newUserEmailController = TextEditingController();
+var newUserPasswordController = TextEditingController();
 
