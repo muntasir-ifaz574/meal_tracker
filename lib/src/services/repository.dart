@@ -15,7 +15,8 @@ class _Repository {
   Future<ResponseObject> signUpProvider({required String username,required String email, required String password}) => _authAPIServices.signUpAPI(username: username,email: email, password: password);
 
   ///--------------------------Common Repository-------------------///
-  Future<ResponseObject> addMealProvider({required String mealType, required String whatYouEat, required String totalCalorie}) => _commonAPIServices.addMealAPI(mealType: mealType,whatYouEat: whatYouEat,totalCalorie: totalCalorie);
+  Future<ResponseObject> addMealProvider({required String mealType, required String whatYouEat, required String totalCalorie,required String time}) => _commonAPIServices.addMealAPI(mealType: mealType,whatYouEat: whatYouEat,totalCalorie: totalCalorie,time: time);
+  Future<ResponseObject> editMealProvider({required int id,required String mealType, required String whatYouEat, required String totalCalorie}) => _commonAPIServices.editMealAPI(id: id,mealType: mealType,whatYouEat: whatYouEat,totalCalorie: totalCalorie);
   Future<ResponseObject> mealListProvider() => _commonAPIServices.mealListAPI();
   Future<ResponseObject> deleteMealProvider({required int id}) => _commonAPIServices.deleteMealAPI(id: id);
 

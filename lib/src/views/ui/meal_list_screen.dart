@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mealtracker/src/business_logics/providers/common_provider.dart';
+import 'package:mealtracker/src/views/ui/edit_meal_screen.dart';
 import 'package:mealtracker/src/views/utils/colors.dart';
 import 'package:mealtracker/src/views/utils/custom_text_style.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../widgets/custom_warning_message_widget.dart';
 
 class MealListScreen extends StatefulWidget {
@@ -150,7 +150,19 @@ class _MealListScreenState extends State<MealListScreen> {
                                                       Row(
                                                         children: [
                                                           IconButton(
-                                                            onPressed: () {},
+                                                            onPressed: () {
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder: (context) => EditMealScreen(
+                                                                    mealId: commonProvider.mealListResponseModel?.data?[index].id as int,
+                                                                    mealType:  commonProvider.mealListResponseModel?.data?[index].type as String,
+                                                                    whatYouEat:  commonProvider.mealListResponseModel?.data?[index].name as String,
+                                                                    totalCalorie:  commonProvider.mealListResponseModel?.data?[index].calories as String,
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
                                                             icon: const Icon(
                                                               Icons.edit,
                                                               color: kThemeColor,
@@ -225,7 +237,7 @@ class _MealListScreenState extends State<MealListScreen> {
                                               Align(
                                                 alignment: Alignment.centerRight,
                                                 child: Text(
-                                                  formatDateString(commonProvider.mealListResponseModel?.data?[index].createdAt ?? "N/A"),
+                                                  formatDateString(commonProvider.mealListResponseModel?.data?[index].time ?? "N/A") ,
                                                   style: TextStyle(
                                                     fontFamily: "Nunito",
                                                     color: kBlackColor,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mealtracker/src/business_logics/providers/common_provider.dart';
-import 'package:mealtracker/src/views/ui/home_screen.dart';
 import 'package:mealtracker/src/views/utils/colors.dart';
 import 'package:mealtracker/src/views/utils/custom_text_style.dart';
 import 'package:provider/provider.dart';
@@ -9,14 +8,24 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../widgets/custom_warning_message_widget.dart';
 import '../widgets/widget_factory.dart';
 
-class AddMealScreen extends StatefulWidget {
-  const AddMealScreen({Key? key}) : super(key: key);
+class EditMealScreen extends StatefulWidget {
+  final String mealType;
+  final String whatYouEat;
+  final String totalCalorie;
+  final int mealId;
+  const EditMealScreen(
+      {Key? key,
+      required this.mealType,
+      required this.whatYouEat,
+      required this.totalCalorie,
+      required this.mealId})
+      : super(key: key);
 
   @override
-  State<AddMealScreen> createState() => _AddMealScreenState();
+  State<EditMealScreen> createState() => _EditMealScreenState();
 }
 
-class _AddMealScreenState extends State<AddMealScreen> {
+class _EditMealScreenState extends State<EditMealScreen> {
   String? mealTypes;
 
   FocusNode whatYouEatFocusNode = FocusNode();
@@ -27,6 +36,9 @@ class _AddMealScreenState extends State<AddMealScreen> {
 
   @override
   Widget build(BuildContext context) {
+    whatYouEatController.text = widget.whatYouEat.toString();
+    totalCalorieController.text = widget.totalCalorie.toString();
+
     return Scaffold(
       backgroundColor: kBackGroundColor,
       body: SafeArea(
@@ -48,7 +60,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
                     ),
                     SizedBox(width: 5.w),
                     const Text(
-                      "Add Your Meal",
+                      "Edit Your Meal",
                       style: kHLargeTitleTextStyle,
                     ),
                   ],
@@ -89,11 +101,10 @@ class _AddMealScreenState extends State<AddMealScreen> {
                       ),
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(
-                        color: kGreyColor,
-                      )
-                    ),
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(
+                          color: kGreyColor,
+                        )),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                       borderSide: const BorderSide(
@@ -101,7 +112,9 @@ class _AddMealScreenState extends State<AddMealScreen> {
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: kThemeColor,),
+                      borderSide: const BorderSide(
+                        color: kThemeColor,
+                      ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
@@ -176,30 +189,25 @@ class _AddMealScreenState extends State<AddMealScreen> {
                           child: WidgetFactory.buildButton(
                             context: context,
                             onPressed: () async {
+                              int id = widget.mealId;
                               String mealType = mealTypes.toString();
                               String whatYouEat = whatYouEatController.text.toString();
                               String totalCalorie = totalCalorieController.text.toString();
-                              String time = DateTime.now().toString();
-                              if(mealTypes.toString().isNotEmpty && whatYouEatController.text.isNotEmpty && totalCalorieController.text.isNotEmpty){
+                              if (mealTypes.toString().isNotEmpty) {
                                 CommonProvider commonProvider = Provider.of<CommonProvider>(context, listen: false);
-                                bool response = await commonProvider.addMealProvider(
+                                bool response = await commonProvider.editMealProvider(
+                                  id: id,
                                   mealType: mealType,
                                   whatYouEat: whatYouEat,
                                   totalCalorie: totalCalorie,
-                                  time: time,
                                 );
                                 if (response) {
                                   if (!mounted) return;
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                          const HomeScreen()),
-                                          (Route<dynamic> route) => false);
+                                  Navigator.pop(context);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text(
-                                          "Your meal has been added successfully!"),
+                                          "Your meal has been edited successfully!"),
                                     ),
                                   );
                                 } else {
@@ -207,11 +215,11 @@ class _AddMealScreenState extends State<AddMealScreen> {
                                   customWidget.showCustomSnackbar(context,
                                       commonProvider.errorResponse?.message);
                                 }
-                              } else{
+                              } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text(
-                                        "Please fill all field",
+                                      "Please Select Meal Type",
                                     ),
                                   ),
                                 );

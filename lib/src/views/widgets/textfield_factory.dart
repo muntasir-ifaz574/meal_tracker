@@ -120,10 +120,10 @@ class IOSTextField implements PlatformTextField {
           label: Text(label, style: (focusNode != null && focusNode.hasFocus) ? const TextStyle(color: kThemeColor) : const TextStyle(color: kThemeColor)),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           border: const OutlineInputBorder(
-            borderSide: BorderSide(color: kLightGreyColor),
+            borderSide: BorderSide(color: Color(0xFF808080)),
           ),
           enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: kLightGreyColor),
+            borderSide: BorderSide(color: Color(0xFF808080)),
           ),
           focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: kThemeColor),
