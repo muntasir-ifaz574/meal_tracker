@@ -196,25 +196,13 @@ class _AddMealScreenState extends State<AddMealScreen> {
                                           builder: (context) =>
                                           const HomeScreen()),
                                           (Route<dynamic> route) => false);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          "Your meal has been added successfully!"),
-                                    ),
-                                  );
+                                  customWidget.showCustomSnackBar(context, "Your meal has been added successfully!");
                                 } else {
                                   if (!mounted) return;
-                                  customWidget.showCustomSnackbar(context,
-                                      commonProvider.errorResponse?.message);
+                                  customWidget.showCustomWarningSnackBar(context, commonProvider.errorResponse?.message);
                                 }
                               } else{
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                        "Please fill all field",
-                                    ),
-                                  ),
-                                );
+                                customWidget.showCustomWarningSnackBar(context, "Please fill all field");
                               }
                             },
                             text: "Submit",

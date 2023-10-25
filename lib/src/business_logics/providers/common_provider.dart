@@ -9,6 +9,7 @@ import '../models/error_response_model.dart';
 class CommonProvider extends ChangeNotifier {
 
   bool _inProgress = false, _isError = false,_isDelete = false;
+  List<bool> mealItemLoadingStates = [];
   ErrorResponseModel? _errorResponse;
   AddMealResponseModel? _addMealResponseModel;
   EditMealResponseModel? _editMealResponseModel;
@@ -76,6 +77,7 @@ class CommonProvider extends ChangeNotifier {
     if (response.id == 200) {
       _inProgress = false;
       _mealListResponseModel = response.object as MealListResponseModel;
+      mealItemLoadingStates = List.filled(mealListResponseModel?.data?.length ?? 0, false);
       notifyListeners();
       return true;
     } else {
@@ -88,11 +90,16 @@ class CommonProvider extends ChangeNotifier {
   }
 
   ///------------------Delete Meal Provider--------------------------///
-  Future<bool> deleteMealProvider({required int id}) async {
+  Future<bool> deleteMealProvider({required int id,required int index}) async {
+    mealItemLoadingStates[index] = true;
+    notifyListeners();
     _isDelete = true;
     _deleteMealResponseModel = null;
+    mealItemLoadingStates[index] = true;
     notifyListeners();
     final response = await repository.deleteMealProvider(id: id);
+    mealItemLoadingStates[index] = false;
+    notifyListeners();
     if (response.id == 200) {
       _isDelete = false;
       _deleteMealResponseModel = response.object as DeleteMealResponseModel;

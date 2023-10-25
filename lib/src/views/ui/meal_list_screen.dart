@@ -5,6 +5,7 @@ import 'package:mealtracker/src/business_logics/providers/common_provider.dart';
 import 'package:mealtracker/src/views/ui/edit_meal_screen.dart';
 import 'package:mealtracker/src/views/utils/colors.dart';
 import 'package:mealtracker/src/views/utils/custom_text_style.dart';
+import 'package:mealtracker/src/views/widgets/custome_image.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../widgets/custom_warning_message_widget.dart';
@@ -21,8 +22,7 @@ class _MealListScreenState extends State<MealListScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      CommonProvider commonProvider =
-      Provider.of<CommonProvider>(context, listen: false);
+      CommonProvider commonProvider = Provider.of<CommonProvider>(context, listen: false);
       _mealLIst(commonProvider);
     });
   }
@@ -32,7 +32,7 @@ class _MealListScreenState extends State<MealListScreen> {
   }
 
 
-
+  ///-------------Time Format Function-------------///
   String formatDateString(String dateString) {
     final dateTime = DateTime.parse(dateString);
     final formatter = DateFormat('h:mm a EEE d MMM y');
@@ -91,6 +91,7 @@ class _MealListScreenState extends State<MealListScreen> {
                     indent: 10,
                     endIndent: 10,
                   ),
+                  ///---------------Meal List--------//
                   Consumer<CommonProvider>(
                     builder: (context, commonProvider, child) {
                       if (commonProvider.inProgress) {
@@ -106,9 +107,8 @@ class _MealListScreenState extends State<MealListScreen> {
                             children: [
                               ...commonProvider.mealListResponseModel!.data!.map((meal) {
                                 final index = commonProvider.mealListResponseModel!.data!.indexOf(meal);
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 10),
+                                final isLoading = commonProvider.mealItemLoadingStates[index];
+                                return Padding(padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                                   child: Stack(
                                     children: [
                                       Container(
@@ -125,33 +125,35 @@ class _MealListScreenState extends State<MealListScreen> {
                                             ),
                                           ],
                                         ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 15, right: 15, bottom: 10),
+                                        child: Padding(padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                                           child: Column(
                                             children: [
+                                              ///------------This Row Content Image,Edit and Delete button, Calories---------///
                                               Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
+                                                  ///-------------Images---------///
                                                   SizedBox(
-                                                    height: 60,
-                                                    width: 60,
-                                                    child: Lottie.asset(
-                                                      commonProvider.mealListResponseModel?.data?[index].type == "Dinner"
-                                                          ? "assets/lotties/dinner_lottie.json"
-                                                          : commonProvider.mealListResponseModel?.data?[index].type == "Lunch"
-                                                          ? "assets/lotties/lunch_lottie.json"
-                                                          : "assets/lotties/breackfast_lottie.json",
+                                                    height: 40,
+                                                    width: 40,
+                                                    child: CustomImage(
+                                                        path: commonProvider.mealListResponseModel?.data?[index].type == "Dinner"
+                                                            ? "assets/images/dinner_image.png"
+                                                            : commonProvider.mealListResponseModel?.data?[index].type == "Lunch"
+                                                            ? "assets/images/lunch_image.png"
+                                                            : "assets/images/breackfast_image.png",
                                                     ),
                                                   ),
+                                                  ///-------------Button & Calories---------///
                                                   Column(
                                                     children: [
+                                                      ///-----Button-----///
                                                       Row(
                                                         children: [
+                                                          ///-------------Edit Button---------///
                                                           IconButton(
-                                                            onPressed: () {
-                                                              Navigator.push(
+                                                            onPressed: () async {
+                                                              final result = await Navigator.push(
                                                                 context,
                                                                 MaterialPageRoute(
                                                                   builder: (context) => EditMealScreen(
@@ -162,13 +164,17 @@ class _MealListScreenState extends State<MealListScreen> {
                                                                   ),
                                                                 ),
                                                               );
+                                                              if (result == true) {
+                                                                _mealLIst(commonProvider);
+                                                              }
                                                             },
                                                             icon: const Icon(
                                                               Icons.edit,
                                                               color: kThemeColor,
                                                             ),
                                                           ),
-                                                          commonProvider.isDelete
+                                                          ///-------------Delete Button---------///
+                                                          isLoading
                                                           ? SizedBox(
                                                             height: 3.h,
                                                             width: 6.w,
@@ -179,15 +185,16 @@ class _MealListScreenState extends State<MealListScreen> {
                                                           : IconButton(
                                                             onPressed: () async {
                                                               CommonProvider commonProvider = Provider.of<CommonProvider>(context, listen: false);
-                                                              bool response = await commonProvider.deleteMealProvider(id: commonProvider.mealListResponseModel?.data?[index].id as int);
+                                                              bool response = await commonProvider.deleteMealProvider(id: commonProvider.mealListResponseModel?.data?[index].id as int, index: index);
                                                               if (response) {
                                                                 if (!mounted) return;
+                                                                customWidget.showCustomSnackBar(context, "Your meal has been deleted");
                                                                 setState(() {
                                                                   commonProvider.mealListResponseModel!.data!.removeAt(index);
                                                                 });
                                                               } else {
                                                                 if (!mounted) return;
-                                                                customWidget.showCustomSnackbar(context, commonProvider.errorResponse?.message);
+                                                                customWidget.showCustomWarningSnackBar(context, commonProvider.errorResponse?.message);
                                                               }
                                                             },
                                                             icon: const Icon(
@@ -198,6 +205,7 @@ class _MealListScreenState extends State<MealListScreen> {
                                                           ),
                                                         ],
                                                       ),
+                                                      ///-----Calories-----///
                                                       Text(
                                                         "Calories: ${commonProvider.mealListResponseModel?.data?[index].calories ?? "N/A"}",
                                                         style: TextStyle(
@@ -213,6 +221,7 @@ class _MealListScreenState extends State<MealListScreen> {
                                                   ),
                                                 ],
                                               ),
+                                              ///------------Meal Type---------///
                                               Align(
                                                 alignment: Alignment.centerLeft,
                                                 child: Text(
@@ -220,6 +229,7 @@ class _MealListScreenState extends State<MealListScreen> {
                                                   style: kHSmallTitleTextStyle,
                                                 ),
                                               ),
+                                              ///------------Meal details---------///
                                               SizedBox(
                                                 width: 90.w,
                                                 child: Text(
@@ -234,6 +244,7 @@ class _MealListScreenState extends State<MealListScreen> {
                                                   ),
                                                 ),
                                               ),
+                                              ///------------Time---------///
                                               Align(
                                                 alignment: Alignment.centerRight,
                                                 child: Text(
@@ -249,6 +260,7 @@ class _MealListScreenState extends State<MealListScreen> {
                                           ),
                                         ),
                                       ),
+                                      ///------------This will appear in top left side of container when calories is equable or getter than 1500---------///
                                       int.parse(commonProvider.mealListResponseModel?.data?[index].calories as String) >= 1500
                                           ? Positioned(
                                         top: 0,

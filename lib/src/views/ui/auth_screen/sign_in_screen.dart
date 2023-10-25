@@ -151,6 +151,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                       userEmailController.clear();
                                       userPasswordController.clear();
                                       if (!mounted) return;
+                                      customWidget.showCustomSnackBar(context, "Your Have Successfully Sign In!");
                                       Navigator.pushAndRemoveUntil(
                                           context,
                                           MaterialPageRoute(
@@ -159,16 +160,11 @@ class _SignInScreenState extends State<SignInScreen> {
                                               (Route<dynamic> route) => false);
                                     } else {
                                       if (!mounted) return;
-                                      customWidget.showCustomSnackbar(context,
+                                      customWidget.showCustomWarningSnackBar(context,
                                           authProvider.errorResponse?.message);
                                     }
                                   } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            "Please fill all field."),
-                                      ),
-                                    );
+                                    customWidget.showCustomWarningSnackBar(context, "Please fill all field");
                                   }
                                 },
                                 text: "Sign In",

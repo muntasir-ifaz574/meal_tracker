@@ -194,28 +194,19 @@ class _SingUpScreenState extends State<SingUpScreen> {
                                                   builder: (context) =>
                                                   const SignInScreen()),
                                                   (Route<dynamic> route) => false);
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            const SnackBar(
-                                              content: Text("Your account has been created successfully! Please SignIn to continue"),
-                                            ),
-                                          );
+
+                                          customWidget.showCustomSnackBar(context, "Your account has been created successfully! Please SignIn to continue");
+
                                         } else {
                                           if (!mounted) return;
-                                          customWidget.showCustomSnackbar(
+                                          customWidget.showCustomWarningSnackBar(
                                               context,
                                               authProvider
                                                   .errorResponse?.message);
                                         }
                                       }else {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                                "Please fill all field."),
-                                          ),
-                                        );
+                                        customWidget.showCustomWarningSnackBar(context, "Please fill all field.");
                                       }
-
-
                                     },
                                     text: "SIGN UP",
                                     backgroundColor: kThemeColor,

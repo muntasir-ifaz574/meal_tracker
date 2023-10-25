@@ -8,9 +8,9 @@ import 'package:mealtracker/src/views/utils/colors.dart';
 import 'package:mealtracker/src/views/widgets/home_screen_custom_continer.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../services/shared_preference_services/shared_prefs_services.dart';
 import '../utils/custom_text_style.dart';
+import '../widgets/custom_warning_message_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -34,11 +34,10 @@ class HomeScreen extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        await SharedPrefsServices.setStringData(
-                            'accessToken', '');
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        await SharedPrefsServices.setStringData('accessToken', '');
                         prefs.setBool('hasCheckedIn', false);
+                        customWidget.showCustomSnackBar(context, "Successfully Sign Out");
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(

@@ -19,7 +19,29 @@ class _CustomWidget {
     );
   }
 
-  showCustomSnackbar(context, String? errorMessage) {
+  showCustomSnackBar(context, String? message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Row(
+        children: [
+          Container(
+              decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(48.0)
+              ),
+              child: const Icon(Icons.cloud_done_outlined, size: 16, color: Colors.white)
+          ),
+          const SizedBox(width: 8.0),
+          Flexible(child: Text(message ?? "", style: const TextStyle(color: kWhiteColor,fontFamily: "Nunito"))),
+        ],
+      ),
+      duration: const Duration(seconds: 3),
+      shape: const StadiumBorder(),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: kThemeColor,
+    ));
+  }
+
+  showCustomWarningSnackBar(context, String? errorMessage) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Row(
         children: [
