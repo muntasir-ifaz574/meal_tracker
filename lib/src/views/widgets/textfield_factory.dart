@@ -112,11 +112,12 @@ class IOSTextField implements PlatformTextField {
       validator: validator,
       obscureText: obscureText ?? false,
       focusNode: focusNode,
+      maxLines: maxline,
       decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 12,vertical: 12),
           hintText: hint,
           hintStyle: TextStyle(color: hintColor),
-          label: Text(label, style: (focusNode != null && focusNode.hasFocus) ? const TextStyle(color: Colors.red) : const TextStyle(color: kThemeColor)),
+          label: Text(label, style: (focusNode != null && focusNode.hasFocus) ? const TextStyle(color: kThemeColor) : const TextStyle(color: kThemeColor)),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           border: const OutlineInputBorder(
             borderSide: BorderSide(color: kLightGreyColor),
@@ -125,7 +126,7 @@ class IOSTextField implements PlatformTextField {
             borderSide: BorderSide(color: kLightGreyColor),
           ),
           focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red),
+            borderSide: BorderSide(color: kThemeColor),
           ),
           suffixIcon: suffixIcon
       ),

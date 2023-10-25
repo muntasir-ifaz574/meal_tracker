@@ -6,7 +6,6 @@ import 'package:mealtracker/src/views/utils/colors.dart';
 import 'package:mealtracker/src/views/utils/custom_text_style.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../widgets/custom_warning_message_widget.dart';
 import '../widgets/widget_factory.dart';
 
@@ -91,15 +90,18 @@ class _AddMealScreenState extends State<AddMealScreen> {
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: kLightGreyColor,
+                      )
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                       borderSide: const BorderSide(
-                        color: Color(0xFF808080),
+                        color: kLightGreyColor,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Color(0xFF808080)),
+                      borderSide: const BorderSide(color: kLightGreyColor,),
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
@@ -130,7 +132,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
               ///-----------------What you eat--------------------------///
               Container(
                 padding: const EdgeInsets.only(
-                    left: 20, right: 20, top: 20, bottom: 10),
+                    left: 15, right: 15, top: 20, bottom: 10),
                 height: 17.5.h,
                 child: WidgetFactory.buildTextField(
                   maxline: 5,
@@ -143,10 +145,10 @@ class _AddMealScreenState extends State<AddMealScreen> {
                 ),
               ),
 
-              ///-----------------Total Calories--------------------------///
+              ///-----------------Total Calories------------------------///
               Container(
                 padding: const EdgeInsets.only(
-                    left: 20, right: 20, top: 10, bottom: 20),
+                    left: 15, right: 15, top: 10, bottom: 20),
                 child: WidgetFactory.buildTextField(
                   controller: totalCalorieController,
                   textInputAction: TextInputAction.next,
@@ -158,7 +160,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
                 ),
               ),
 
-              ///-----------------Submit Button---------------------------///
+              ///-----------------Submit Button-------------------------///
               Consumer<CommonProvider>(
                 builder: (context, authProvider, child) {
                   return authProvider.inProgress
@@ -168,7 +170,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
                           ),
                         )
                       : Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 20),
+                          margin: const EdgeInsets.symmetric(horizontal: 15),
                           width: double.infinity,
                           height: 6.h,
                           child: WidgetFactory.buildButton(

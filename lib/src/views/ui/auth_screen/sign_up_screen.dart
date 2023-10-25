@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,22 +32,24 @@ class _SingUpScreenState extends State<SingUpScreen> {
             padding: const EdgeInsets.only(top: 20),
             child: Column(
               children: [
-                Align(
-                  alignment: AlignmentDirectional.topStart,
-                  child: FloatingActionButton(
-                    backgroundColor: Colors.transparent,
-                    elevation: 0.0,
-                    child: const Icon(
-                      Icons.arrow_back,
-                      color: kBlackColor,
+                Platform.isAndroid
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: IconButton(onPressed: (){
+                        Navigator.pop(context);
+                      },
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          color: kBlackColor,
+                        ),
+                      ),
                     ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
+                  )
+                : SizedBox(height: 10.h),
+
                 Container(
-                  // height: 15.h,
                   width: 45.w,
                   decoration: const BoxDecoration(
                     color: Color(0xFFEAF4F2),
@@ -54,7 +58,6 @@ class _SingUpScreenState extends State<SingUpScreen> {
                 ),
                 SizedBox(height: 5.h),
                 Container(
-                  // height: 90.h,
                   margin: const EdgeInsets.symmetric(horizontal: 15),
                   width: 100.w,
                   decoration: BoxDecoration(

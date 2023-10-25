@@ -83,7 +83,7 @@ class CommonAPIServices {
   ///------------------Delete Meal API Service--------------------------///
   Future<ResponseObject> deleteMealAPI({required int id}) async {
     try {
-      Uri uri = Uri.parse('$BASE_URL/auth/meals/$id');
+      Uri uri = Uri.parse('$BASE_URL/auth/meals-delete/$id');
       final request = http.Request("POST", uri);
 
       request.headers['Content-Type'] = 'application/json';
