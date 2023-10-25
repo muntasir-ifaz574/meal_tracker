@@ -72,7 +72,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           textInputType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
                           context: context,
-                          label: "Username",
+                          label: "Email",
                           hint: "user@example.com",
                           focusNode: userEmailFocusNode),
                     ),

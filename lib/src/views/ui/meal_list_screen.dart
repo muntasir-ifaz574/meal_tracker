@@ -109,131 +109,163 @@ class _MealListScreenState extends State<MealListScreen> {
                                 return Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 15, vertical: 10),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: kWhiteColor,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          spreadRadius: 1,
-                                          blurRadius: 1,
-                                          color: int.parse(commonProvider.mealListResponseModel?.data?[index].calories as String) >= 1500
-                                              ? Colors.red.withOpacity(0.25)
-                                              : Colors.grey.withOpacity(0.25),
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: kWhiteColor,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              spreadRadius: 1,
+                                              blurRadius: 1,
+                                              color: int.parse(commonProvider.mealListResponseModel?.data?[index].calories as String) >= 1500
+                                                  ? Colors.red.withOpacity(0.25)
+                                                  : Colors.grey.withOpacity(0.25),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15, right: 15, bottom: 10),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 15, right: 15, bottom: 10),
+                                          child: Column(
                                             children: [
-                                              SizedBox(
-                                                height: 60,
-                                                width: 60,
-                                                child: Lottie.asset(
-                                                  commonProvider.mealListResponseModel?.data?[index].type == "Dinner"
-                                                      ? "assets/lotties/dinner_lottie.json"
-                                                      : commonProvider.mealListResponseModel?.data?[index].type == "Lunch"
-                                                      ? "assets/lotties/lunch_lottie.json"
-                                                      : "assets/lotties/breackfast_lottie.json",
-                                                ),
-                                              ),
-                                              Column(
+                                              Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  Row(
+                                                  SizedBox(
+                                                    height: 60,
+                                                    width: 60,
+                                                    child: Lottie.asset(
+                                                      commonProvider.mealListResponseModel?.data?[index].type == "Dinner"
+                                                          ? "assets/lotties/dinner_lottie.json"
+                                                          : commonProvider.mealListResponseModel?.data?[index].type == "Lunch"
+                                                          ? "assets/lotties/lunch_lottie.json"
+                                                          : "assets/lotties/breackfast_lottie.json",
+                                                    ),
+                                                  ),
+                                                  Column(
                                                     children: [
-                                                      IconButton(
-                                                        onPressed: () {},
-                                                        icon: const Icon(
-                                                          Icons.edit,
-                                                          color: kThemeColor,
-                                                        ),
+                                                      Row(
+                                                        children: [
+                                                          IconButton(
+                                                            onPressed: () {},
+                                                            icon: const Icon(
+                                                              Icons.edit,
+                                                              color: kThemeColor,
+                                                            ),
+                                                          ),
+                                                          commonProvider.isDelete
+                                                          ? SizedBox(
+                                                            height: 3.h,
+                                                            width: 6.w,
+                                                            child: const CircularProgressIndicator(
+                                                              color: Colors.red,
+                                                            ),
+                                                          )
+                                                          : IconButton(
+                                                            onPressed: () async {
+                                                              CommonProvider commonProvider = Provider.of<CommonProvider>(context, listen: false);
+                                                              bool response = await commonProvider.deleteMealProvider(id: commonProvider.mealListResponseModel?.data?[index].id as int);
+                                                              if (response) {
+                                                                if (!mounted) return;
+                                                                setState(() {
+                                                                  commonProvider.mealListResponseModel!.data!.removeAt(index);
+                                                                });
+                                                              } else {
+                                                                if (!mounted) return;
+                                                                customWidget.showCustomSnackbar(context, commonProvider.errorResponse?.message);
+                                                              }
+                                                            },
+                                                            icon: const Icon(
+                                                              Icons
+                                                                  .delete_outline_rounded,
+                                                              color: Colors.red,
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
-                                                      commonProvider.isDelete
-                                                      ? SizedBox(
-                                                        height: 3.h,
-                                                        width: 6.w,
-                                                        child: const CircularProgressIndicator(
-                                                          color: Colors.red,
+                                                      Text(
+                                                        "Calories: ${commonProvider.mealListResponseModel?.data?[index].calories ?? "N/A"}",
+                                                        style: TextStyle(
+                                                          fontFamily: "Nunito",
+                                                          fontWeight: FontWeight.w600,
+                                                          fontSize: 16.sp,
+                                                          color: int.parse(commonProvider.mealListResponseModel?.data?[index].calories as String) >= 1500
+                                                              ? Colors.red
+                                                              : kBlackColor,
                                                         ),
                                                       )
-                                                      : IconButton(
-                                                        onPressed: () async {
-                                                          CommonProvider commonProvider = Provider.of<CommonProvider>(context, listen: false);
-                                                          bool response = await commonProvider.deleteMealProvider(id: commonProvider.mealListResponseModel?.data?[index].id as int);
-                                                          if (response) {
-                                                            if (!mounted) return;
-                                                            setState(() {
-                                                              commonProvider.mealListResponseModel!.data!.removeAt(index);
-                                                            });
-                                                          } else {
-                                                            if (!mounted) return;
-                                                            customWidget.showCustomSnackbar(context, commonProvider.errorResponse?.message);
-                                                          }
-                                                        },
-                                                        icon: const Icon(
-                                                          Icons
-                                                              .delete_outline_rounded,
-                                                          color: Colors.red,
-                                                        ),
-                                                      ),
                                                     ],
                                                   ),
-                                                  Text(
-                                                    "Calories: ${commonProvider.mealListResponseModel?.data?[index].calories ?? "N/A"}",
-                                                    style: TextStyle(
-                                                      fontFamily: "Nunito",
-                                                      fontWeight: FontWeight.w600,
-                                                      fontSize: 16.sp,
-                                                      color: int.parse(commonProvider.mealListResponseModel?.data?[index].calories as String) >= 1500
-                                                          ? Colors.red
-                                                          : kBlackColor,
-                                                    ),
-                                                  )
                                                 ],
+                                              ),
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                  commonProvider.mealListResponseModel?.data?[index].type ?? "N/A",
+                                                  style: kHSmallTitleTextStyle,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 90.w,
+                                                child: Text(
+                                                  commonProvider.mealListResponseModel?.data?[index].name ?? "N/A",
+                                                  maxLines: 2,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                    fontFamily: "Nunito",
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 16.sp,
+                                                    color: kBlackColor,
+                                                  ),
+                                                ),
+                                              ),
+                                              Align(
+                                                alignment: Alignment.centerRight,
+                                                child: Text(
+                                                  formatDateString(commonProvider.mealListResponseModel?.data?[index].createdAt ?? "N/A"),
+                                                  style: TextStyle(
+                                                    fontFamily: "Nunito",
+                                                    color: kBlackColor,
+                                                    fontSize: 14.sp,
+                                                  ),
+                                                ),
                                               ),
                                             ],
                                           ),
-                                          Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              commonProvider.mealListResponseModel?.data?[index].type ?? "N/A",
-                                              style: kHSmallTitleTextStyle,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 90.w,
-                                            child: Text(
-                                              commonProvider.mealListResponseModel?.data?[index].name ?? "N/A",
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontFamily: "Nunito",
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 16.sp,
-                                                color: kBlackColor,
-                                              ),
-                                            ),
-                                          ),
-                                          Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Text(
-                                              formatDateString(commonProvider.mealListResponseModel?.data?[index].createdAt ?? "N/A"),
-                                              style: TextStyle(
-                                                fontFamily: "Nunito",
-                                                color: kBlackColor,
-                                                fontSize: 14.sp,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
+                                      int.parse(commonProvider.mealListResponseModel?.data?[index].calories as String) >= 1500
+                                          ? Positioned(
+                                        top: 0,
+                                        left: 0,
+                                        child: Container(
+                                          height: 2.h,
+                                          width: 20.w,
+                                          decoration: const BoxDecoration(
+                                              color: Colors.red,
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(10),
+                                                bottomRight: Radius.circular(10),
+                                              )
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              "Heavy Meal",
+                                              style: TextStyle(
+                                                fontFamily: "Nunito",
+                                                fontSize: 13.5.sp,
+                                                color: kWhiteColor,
+                                                fontWeight: FontWeight.bold
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                          : const SizedBox.shrink(),
+                                    ],
                                   ),
                                 );
                               }).toList(),
