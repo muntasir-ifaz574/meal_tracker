@@ -129,7 +129,6 @@ class CommonAPIServices {
       request.headers['Accept'] = 'application/json';
       request.headers['Authorization'] = 'Bearer ${UserData.accessToken}';
 
-
       LogDebugger.instance.i(request.body);
 
       final response = await request.send();
