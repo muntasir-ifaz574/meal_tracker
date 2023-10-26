@@ -134,14 +134,14 @@ class _MealListScreenState extends State<MealListScreen> {
                                                 children: [
                                                   ///-------------Images---------///
                                                   SizedBox(
-                                                    height: 40,
-                                                    width: 40,
+                                                    height: 50,
+                                                    width: 50,
                                                     child: CustomImage(
                                                         path: commonProvider.mealListResponseModel?.data?[index].type == "Dinner"
-                                                            ? "assets/images/dinner_image.png"
+                                                            ? "assets/images/lunch_icon.png"
                                                             : commonProvider.mealListResponseModel?.data?[index].type == "Lunch"
-                                                            ? "assets/images/lunch_image.png"
-                                                            : "assets/images/breackfast_image.png",
+                                                            ? "assets/images/dinner_icon.png"
+                                                            : "assets/images/breakfast_icon.png",
                                                     ),
                                                   ),
                                                   ///-------------Button & Calories---------///
