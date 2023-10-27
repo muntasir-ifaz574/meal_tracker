@@ -1,15 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:mealtracker/src/views/ui/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../business_logics/providers/auth_provider.dart';
+import '../../../routes.dart';
 import '../../utils/colors.dart';
 import '../../utils/custom_text_style.dart';
 import '../../widgets/custom_warning_message_widget.dart';
 import '../../widgets/widget_factory.dart';
 import 'controller.dart';
-import 'sign_up_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -114,12 +113,9 @@ class _SignInScreenState extends State<SignInScreen> {
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  Navigator.push(
+                                  Navigator.pushNamed(
                                     context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SingUpScreen(),
-                                    ),
+                                      Routes.signUpScreen,
                                   );
                                 },
                             ),
@@ -152,12 +148,10 @@ class _SignInScreenState extends State<SignInScreen> {
                                       userPasswordController.clear();
                                       if (!mounted) return;
                                       customWidget.showCustomSnackBar(context, "Your Have Successfully Sign In!");
-                                      Navigator.pushAndRemoveUntil(
+                                      Navigator.pushNamedAndRemoveUntil(
                                           context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                              const HomeScreen()),
-                                              (Route<dynamic> route) => false);
+                                          Routes.homeScreen,
+                                          (Route<dynamic> route) => false);
                                     } else {
                                       if (!mounted) return;
                                       customWidget.showCustomWarningSnackBar(context,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mealtracker/src/business_logics/providers/common_provider.dart';
-import 'package:mealtracker/src/views/ui/home_screen.dart';
 import 'package:mealtracker/src/views/utils/colors.dart';
 import 'package:mealtracker/src/views/utils/custom_text_style.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import '../../routes.dart';
 import '../widgets/custom_warning_message_widget.dart';
 import '../widgets/widget_factory.dart';
 
@@ -190,11 +190,9 @@ class _AddMealScreenState extends State<AddMealScreen> {
                                 );
                                 if (response) {
                                   if (!mounted) return;
-                                  Navigator.pushAndRemoveUntil(
+                                  Navigator.pushNamedAndRemoveUntil(
                                       context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                          const HomeScreen()),
+                                      Routes.homeScreen,
                                           (Route<dynamic> route) => false);
                                   customWidget.showCustomSnackBar(context, "Your meal has been added successfully!");
                                 } else {

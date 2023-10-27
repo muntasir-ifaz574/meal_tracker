@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:mealtracker/src/views/ui/home_screen.dart';
 import 'package:mealtracker/src/views/utils/colors.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../business_logics/models/user_data_model.dart';
+import '../../routes.dart';
 import '../../services/shared_preference_services/shared_prefs_services.dart';
 import '../utils/animation/delayed_animation.dart';
 import '../widgets/custome_image.dart';
-import 'auth_screen/sign_in_screen.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -44,14 +43,12 @@ class _SplashScreenState extends State<SplashScreen> {
   checkState(context) {
     Timer(Duration(seconds: duration), () {
       userLoggedIn == null ? checkState(context)
-          : Navigator.pushAndRemoveUntil(
+          : Navigator.pushNamedAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) =>
           userLoggedIn!
-              ? const HomeScreen()
-              : const SignInScreen()
-          ),
-              (Route<dynamic> route) => false
+            ? Routes.homeScreen
+            : Routes.signInScreen,
+            (Route<dynamic> route) => false,
       );
     });
   }

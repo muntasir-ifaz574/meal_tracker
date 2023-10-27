@@ -1,16 +1,15 @@
 import 'dart:io';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../business_logics/providers/auth_provider.dart';
+import '../../../routes.dart';
 import '../../utils/colors.dart';
 import '../../utils/custom_text_style.dart';
 import '../../widgets/custom_warning_message_widget.dart';
 import '../../widgets/widget_factory.dart';
 import 'controller.dart';
-import 'sign_in_screen.dart';
 
 class SingUpScreen extends StatefulWidget {
   const SingUpScreen({Key? key}) : super(key: key);
@@ -188,11 +187,9 @@ class _SingUpScreenState extends State<SingUpScreen> {
                                         );
                                         if (response) {
                                           if (!mounted) return;
-                                          Navigator.pushAndRemoveUntil(
+                                          Navigator.pushNamedAndRemoveUntil(
                                               context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                  const SignInScreen()),
+                                              Routes.signInScreen,
                                                   (Route<dynamic> route) => false);
 
                                           customWidget.showCustomSnackBar(context, "Your account has been created successfully! Please SignIn to continue");

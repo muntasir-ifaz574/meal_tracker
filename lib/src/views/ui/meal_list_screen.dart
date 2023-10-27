@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mealtracker/src/business_logics/providers/common_provider.dart';
-import 'package:mealtracker/src/views/ui/edit_meal_screen.dart';
 import 'package:mealtracker/src/views/utils/colors.dart';
 import 'package:mealtracker/src/views/utils/custom_text_style.dart';
 import 'package:mealtracker/src/views/widgets/custome_image.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import '../../routes.dart';
 import '../widgets/custom_warning_message_widget.dart';
 
 class MealListScreen extends StatefulWidget {
@@ -153,16 +153,15 @@ class _MealListScreenState extends State<MealListScreen> {
                                                           ///-------------Edit Button---------///
                                                           IconButton(
                                                             onPressed: () async {
-                                                              final result = await Navigator.push(
+                                                              final result = await Navigator.pushNamed(
                                                                 context,
-                                                                MaterialPageRoute(
-                                                                  builder: (context) => EditMealScreen(
-                                                                    mealId: commonProvider.mealListResponseModel?.data?[index].id as int,
-                                                                    mealType:  commonProvider.mealListResponseModel?.data?[index].type as String,
-                                                                    whatYouEat:  commonProvider.mealListResponseModel?.data?[index].name as String,
-                                                                    totalCalorie:  commonProvider.mealListResponseModel?.data?[index].calories as String,
-                                                                  ),
-                                                                ),
+                                                                Routes.editMealScreen,
+                                                                arguments: {
+                                                                  'mealId': commonProvider.mealListResponseModel?.data?[index].id as int,
+                                                                  'mealType':  commonProvider.mealListResponseModel?.data?[index].type as String,
+                                                                  'whatYouEat':  commonProvider.mealListResponseModel?.data?[index].name as String,
+                                                                  'totalCalorie':  commonProvider.mealListResponseModel?.data?[index].calories as String,
+                                                                }
                                                               );
                                                               if (result == true) {
                                                                 _mealLIst(commonProvider);

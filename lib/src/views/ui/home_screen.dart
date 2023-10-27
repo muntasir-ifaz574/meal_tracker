@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mealtracker/src/business_logics/models/user_data_model.dart';
-import 'package:mealtracker/src/views/ui/add_meal_screen.dart';
-import 'package:mealtracker/src/views/ui/auth_screen/sign_in_screen.dart';
-import 'package:mealtracker/src/views/ui/meal_list_screen.dart';
 import 'package:mealtracker/src/views/utils/colors.dart';
 import 'package:mealtracker/src/views/widgets/home_screen_custom_continer.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../routes.dart';
 import '../../services/shared_preference_services/shared_prefs_services.dart';
 import '../utils/custom_text_style.dart';
 import '../widgets/custom_warning_message_widget.dart';
@@ -38,10 +36,9 @@ class HomeScreen extends StatelessWidget {
                         await SharedPrefsServices.setStringData('accessToken', '');
                         prefs.setBool('hasCheckedIn', false);
                         customWidget.showCustomSnackBar(context, "Successfully Sign Out");
-                        Navigator.pushAndRemoveUntil(
+                        Navigator.pushNamedAndRemoveUntil(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => const SignInScreen()),
+                            Routes.signInScreen,
                             (route) => false);
                       },
                       icon: Icon(
@@ -78,11 +75,9 @@ class HomeScreen extends StatelessWidget {
                       "assets/lotties/add_meal_lottie.json",
                       "Add Meal",
                       () {
-                        Navigator.push(
+                        Navigator.pushNamed(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const AddMealScreen(),
-                          ),
+                          Routes.addMealScreen,
                         );
                       },
                     ),
@@ -90,12 +85,9 @@ class HomeScreen extends StatelessWidget {
                       "assets/lotties/meal_list_lottie.json",
                       "Meal List",
                       () {
-                        Navigator.push(
+                        Navigator.pushNamed(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                            const MealListScreen(),
-                          ),
+                          Routes.mealListScreen,
                         );
                       },
                     ),
