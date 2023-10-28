@@ -186,6 +186,9 @@ class _SingUpScreenState extends State<SingUpScreen> {
                                             password: password
                                         );
                                         if (response) {
+                                          newUserNameController.clear();
+                                          newUserEmailController.clear();
+                                          newUserPasswordController.clear();
                                           if (!mounted) return;
                                           Navigator.pushNamedAndRemoveUntil(
                                               context,
