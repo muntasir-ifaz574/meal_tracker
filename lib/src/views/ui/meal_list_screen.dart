@@ -138,9 +138,9 @@ class _MealListScreenState extends State<MealListScreen> {
                                                     width: 50,
                                                     child: CustomImage(
                                                         path: commonProvider.mealListResponseModel?.data?[index].type == "Dinner"
-                                                            ? "assets/images/lunch_icon.png"
-                                                            : commonProvider.mealListResponseModel?.data?[index].type == "Lunch"
                                                             ? "assets/images/dinner_icon.png"
+                                                            : commonProvider.mealListResponseModel?.data?[index].type == "Lunch"
+                                                            ? "assets/images/lunch_icon.png"
                                                             : "assets/images/breakfast_icon.png",
                                                     ),
                                                   ),
