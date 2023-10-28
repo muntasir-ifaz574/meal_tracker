@@ -19,7 +19,7 @@ class Routes {
   static const String mealListScreen = '/MealListScreen';
   static const String editMealScreen = '/EditMealScreen';
 
-  ///--------------Routes---------------------///
+  ///--------------Routes----------------------///
   static final routes = <String, WidgetBuilder>{
     splashScreen: (BuildContext context) => const SplashScreen(),
     signInScreen: (BuildContext context) => const SignInScreen(),
